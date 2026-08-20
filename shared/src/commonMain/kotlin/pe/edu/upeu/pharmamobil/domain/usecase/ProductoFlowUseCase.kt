@@ -7,13 +7,25 @@ import pe.edu.upeu.pharmamobil.domain.model.Producto
 import pe.edu.upeu.pharmamobil.domain.result.ResultadoProductos
 
 class ProductoFlowUseCase {
-    fun observarProductos(): Flow<ResultadoProductos> = flow {
-        emit(ResultadoProductos.Cargando)
-        delay(1500)
-        val productos = listOf(
-            Producto(1L, "Paracetamol 500mg", 2.50, 100),
-            Producto(2L, "Ibuprofeno 400mg", 3.80, 50)
+    private val productosSimulados = listOf(
+        Producto(1L, "Paracetamol", 8.50, 100),
+        Producto(2L, "Ibuprofeno", 12.00, 50),
+        Producto(3L, "Amoxicilina", 18.50, 20)
+    )
+
+    fun observarProductos(): Flow<List<Producto>> = flow {
+        emit(emptyList())
+        delay(1000)
+        emit(
+            productosSimulados.map { producto ->
+                if (producto.id == 1L) producto.copy(stock = 90) else producto
+            }
         )
-        emit(ResultadoProductos.Exito(productos))
+    }
+
+    fun cargarProductosEstado(): Flow<ResultadoProductos> = flow {
+        emit(ResultadoProductos.Cargando)
+        delay(1000)
+        emit(ResultadoProductos.Exito(productosSimulados))
     }
 }
