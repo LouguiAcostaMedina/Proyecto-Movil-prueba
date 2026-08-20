@@ -1,4 +1,4 @@
-package pe.edu.pe
+package pe.edu.upeu.pharmamobil
 
 import androidx.compose.ui.window.ComposeUIViewController
 
